@@ -1,44 +1,10 @@
-import base64
-
-# Define the complete, error-free Python script for Crypto & Encoding Suite
-crypto_suite_code = """# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 import os
 import sys
-import subprocess
 
-# --- Robust Automatic Dependency Installer ---
-def auto_install_packages():
-    required_packages = {
-        "colorama": "colorama",
-        "cryptography": "cryptography",
-        "PIL": "Pillow"
-    }
-    for module_name, pip_name in required_packages.items():
-        try:
-            if module_name == "PIL":
-                from PIL import Image
-            else:
-                __import__(module_name)
-        except ImportError:
-            print(f"[*] Missing package '{pip_name}'. Installing automatically...")
-            try:
-                subprocess.run([sys.executable, "-m", "pip", "install", pip_name, "--break-system-packages"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-            except Exception:
-                pass
-
-# Run installer before importing advanced cryptographic/UI libraries
-auto_install_packages()
-
-# Secure imports with absolute fallbacks
+# استيراد المكتبات الأساسية والتأكد من وجودها
 try:
     from colorama import Fore, Style, init
-    init(autoreset=True)
-except ImportError:
-    class MockColor:
-        def __getattr__(self, name): return ""
-    Fore = Style = MockColor()
-
-try:
     import hashlib
     import base64
     import secrets
@@ -48,41 +14,46 @@ try:
     from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
     from cryptography.hazmat.primitives import hashes
     from PIL import Image
-except ImportError:
-    print("[-] Critical Error: Dependencies could not be resolved. Please run: pip install cryptography Pillow colorama --break-system-packages")
+    init(autoreset=True)
+except ImportError as e:
+    print("[-] خطأ في الاستيراد: المكاتب غير مثبتة بالكامل على نظامك.")
+    print("[-] تفاصيل الخطأ:", e)
+    print("[*] فضلاً نفذ الأمر التالي في التيرمنال أولاً للتثبيت:")
+    print("pip3 install cryptography Pillow colorama --break-system-packages --force-reinstall")
     sys.exit(1)
 
-# --- Phosphorescent Digital Cyber Green ASCII Lock Shield Logo ---
-CRYPTO_SUITE_LOGO = Fore.GREEN + r\"\"\"
-          .ששששששששש.
-         :שש       שש:
-        :שש         שש:
-        שש           שש
-        שש           שש
-      .ששששששששששששששששש.
-     :ששש               ששש:
+# الشعار الفسفوري الرقمي الآمن
+CRYPTO_SUITE_LOGO = Fore.GREEN + r"""
+          .שששששששش.
+         :שש      שש:
+        :שש        שש:
+        שش          שش
+        שش          שش
+      .ששששشששشششششششش.
+     :שש                 שش:
     :שש                   שش:
-    שש   [  CYBER LOCK  ]   שש
-    שש                      שש
-    שש   ===[ DEFENX ]===   שش
+    שش   [  CYBER LOCK  ]   שش
     שش                      שش
-     :ששש               ששש:
-       .ששששששששששששששששש.
+    שش   ===[ DEFENX ]===   שش
+    שش                      שش
+     :שש                 שش:
+       .שששشששששششششششش.
        
    ================[ CRYPTO & ENCODING SUITE ]================
-\"\"\" + Fore.GREEN + "   [+] Author: Naif | System Protection Core | Version: 1.0.0 [+]\n"
+""" + Fore.GREEN + "   [+] Author: Naif | System Protection Core | Version: 1.0.0 [+]\n"
 
 class CryptoSuite:
     def __init__(self):
-        self.salt = b'\\x90\\xfa\\xdd\\x0e\\x12\\x89\\xaa\\xbc' # Hardened static salt for standalone simplicity
+        # ملح ثابت لعملية اشتقاق المفاتيح
+        self.salt = b'\x90\xfa\xdd\x0e\x12\x89\xaa\xbc'
 
     def clear_screen(self):
         os.system('cls' if os.name == 'nt' else 'clear')
         print(CRYPTO_SUITE_LOGO)
         print(Fore.GREEN + "=" * 65)
 
-    # --- Helper: Derive standard key from user password ---
     def _derive_key(self, password: str) -> bytes:
+        # اشتقاق مفتاح آمن متوافق مع Fernet (AES-256) من كلمة المرور
         kdf = PBKDF2HMAC(
             algorithm=hashes.SHA256(),
             length=32,
@@ -91,44 +62,43 @@ class CryptoSuite:
         )
         return base64.urlsafe_b64encode(kdf.derive(password.encode()))
 
-    # ================== MODULE 1: AES-256 TEXT & FILE ENCRYPTION ==================
     def aes_menu(self):
         while True:
             self.clear_screen()
-            print(Fore.BLUE + " [1] Tweak & Encrypt Plain Text (AES-256)")
-            print(Fore.BLUE + " [2] Decrypt Cipher Text back to Plain (AES-256)")
-            print(Fore.BLUE + " [3] Secure File Encryption (Any Extension)")
-            print(Fore.BLUE + " [4] Secure File Decryption")
-            print(Fore.BLUE + " [5] Return to Main Terminal Frame")
-            choice = input(Fore.GREEN + "\\n[CryptoSuite/AES]> ").strip()
+            print(Fore.BLUE + " [1] تشفير نصوص عادية (AES-256)")
+            print(Fore.BLUE + " [2] fك تشفير النصوص المشفرة")
+            print(Fore.BLUE + " [3] تشفير ملف بالكامل (أي امتداد)")
+            print(Fore.BLUE + " [4] فك تشفير ملف محمى")
+            print(Fore.BLUE + " [5] العودة للقائمة الرئيسية")
+            choice = input(Fore.GREEN + "\n[CryptoSuite/AES]> ").strip()
 
             if choice == '1':
-                text = input(Fore.WHITE + "[?] Enter secret text to encrypt: ").strip()
-                passwd = input(Fore.WHITE + "[?] Set strong master password: ").strip()
+                text = input(Fore.WHITE + "[?] أدخل النص السري لتشفيره: ").strip()
+                passwd = input(Fore.WHITE + "[?] حدد كلمة مرور قوية للتشفير: ").strip()
                 if text and passwd:
                     try:
                         fernet = Fernet(self._derive_key(passwd))
                         encrypted = fernet.encrypt(text.encode()).decode()
-                        print(Fore.GREEN + f"\\n[+] Encrypted Payload Matrix:\\n{Fore.YELLOW}{encrypted}")
+                        print(Fore.GREEN + f"\n[+] البيانات المشفرة الناتجة:\n{Fore.YELLOW}{encrypted}")
                     except Exception as e:
-                        print(Fore.RED + f"[-] Encryption execution anomaly: {e}")
-                input(Fore.GREEN + "\\nPress Enter to continue...")
+                        print(Fore.RED + f"[-] فشلت العملية: {e}")
+                input(Fore.GREEN + "\nاضغط Enter للمتابعة...")
             
             elif choice == '2':
-                cipher = input(Fore.WHITE + "[?] Enter encrypted token string: ").strip()
-                passwd = input(Fore.WHITE + "[?] Enter matching master password: ").strip()
+                cipher = input(Fore.WHITE + "[?] أدخل النص المشفر (الكود): ").strip()
+                passwd = input(Fore.WHITE + "[?] أدخل كلمة المرور المطابقة: ").strip()
                 if cipher and passwd:
                     try:
                         fernet = Fernet(self._derive_key(passwd))
                         decrypted = fernet.decrypt(cipher.encode()).decode()
-                        print(Fore.GREEN + f"\\n[+] Decrypted Original Text: {Fore.WHITE}{decrypted}")
+                        print(Fore.GREEN + f"\n[+] النص الأصلي بعد فك التشفير: {Fore.WHITE}{decrypted}")
                     except Exception:
-                        print(Fore.RED + "[-] Failed: Authentication key mismatched or tampered payload.")
-                input(Fore.GREEN + "\\nPress Enter to continue...")
+                        print(Fore.RED + "[-] فشل: كلمة المرور خاطئة أو البيانات تم التلاعب بها.")
+                input(Fore.GREEN + "\nاضغط Enter للمتابعة...")
 
             elif choice == '3':
-                path = input(Fore.WHITE + "[?] Enter absolute or relative file path: ").strip()
-                passwd = input(Fore.WHITE + "[?] Set strong master file password: ").strip()
+                path = input(Fore.WHITE + "[?] أدخل مسار الملف المراد قفله: ").strip()
+                passwd = input(Fore.WHITE + "[?] حدد كلمة مرور حماية الملف: ").strip()
                 if os.path.exists(path) and passwd:
                     try:
                         with open(path, "rb") as f:
@@ -137,16 +107,16 @@ class CryptoSuite:
                         enc_data = fernet.encrypt(data)
                         with open(path + ".enc", "wb") as f:
                             f.write(enc_data)
-                        print(Fore.GREEN + f"[+] Secure file exported successfully: {path}.enc")
+                        print(Fore.GREEN + f"[+] تم تشفير وتصدير الملف المحمي بنجاح باسم: {path}.enc")
                     except Exception as e:
-                        print(Fore.RED + f"[-] IO Failure: {e}")
+                        print(Fore.RED + f"[-] خطأ في معالجة الملف: {e}")
                 else:
-                    print(Fore.RED + "[-] Error: File path does not exist.")
-                input(Fore.GREEN + "\\nPress Enter to continue...")
+                    print(Fore.RED + "[-] خطأ: مسار الملف غير صحيح أو غير موجود.")
+                input(Fore.GREEN + "\nاضغط Enter للمتابعة...")
 
             elif choice == '4':
-                path = input(Fore.WHITE + "[?] Enter absolute path to encrypted file (.enc): ").strip()
-                passwd = input(Fore.WHITE + "[?] Enter valid master file password: ").strip()
+                path = input(Fore.WHITE + "[?] أدخل مسار الملف المشفر (.enc): ").strip()
+                passwd = input(Fore.WHITE + "[?] أدخل كلمة مرور فك القفل: ").strip()
                 if os.path.exists(path) and passwd:
                     try:
                         with open(path, "rb") as f:
@@ -156,37 +126,36 @@ class CryptoSuite:
                         out_path = path.replace(".enc", ".dec") if path.endswith(".enc") else path + ".dec"
                         with open(out_path, "wb") as f:
                             f.write(dec_data)
-                        print(Fore.GREEN + f"[+] File decrypted successfully back to original data: {out_path}")
+                        print(Fore.GREEN + f"[+] تم فك قفل واستعادة الملف بنجاح باسم: {out_path}")
                     except Exception:
-                        print(Fore.RED + "[-] Decryption failed: Invalid password or corrupted packet structure.")
+                        print(Fore.RED + "[-] فشل: كلمة المرور خاطئة أو هيكل الملف تالف.")
                 else:
-                    print(Fore.RED + "[-] Error: Encrypted target file not found.")
-                input(Fore.GREEN + "\\nPress Enter to continue...")
+                    print(Fore.RED + "[-] خطأ: لم يتم العثور على الملف المشفر المستهدف.")
+                input(Fore.GREEN + "\nاضغط Enter للمتابعة...")
             
             elif choice == '5':
                 break
 
-    # ================== MODULE 2: HASH INTEGRITY GENERATOR ==================
     def hash_menu(self):
         while True:
             self.clear_screen()
-            print(Fore.BLUE + " [1] Hash Text String (MD5, SHA-1, SHA-256)")
-            print(Fore.BLUE + " [2] Verify File Integrity Hash Signature")
-            print(Fore.BLUE + " [3] Return to Main Terminal Frame")
-            choice = input(Fore.GREEN + "\\n[CryptoSuite/Hash]> ").strip()
+            print(Fore.BLUE + " [1] توليد الهاش (Hash) لنص معين")
+            print(Fore.BLUE + " [2] استخراج وتحليل بصمة ملف (النزاهة)")
+            print(Fore.BLUE + " [3] العودة للقائمة الرئيسية")
+            choice = input(Fore.GREEN + "\n[CryptoSuite/Hash]> ").strip()
 
             if choice == '1':
-                text = input(Fore.WHITE + "[?] Enter text string to hash: ").strip()
+                text = input(Fore.WHITE + "[?] أدخل النص لتوليد البصمات: ").strip()
                 if text:
                     b_text = text.encode()
-                    print(Fore.GREEN + f"\\n[+] Generated Cryptographic Hashes:")
+                    print(Fore.GREEN + f"\n[+] البصمات الرقمية المولدة:")
                     print(Fore.BLUE + f"    - MD5   : {Fore.YELLOW}{hashlib.md5(b_text).hexdigest()}")
                     print(Fore.BLUE + f"    - SHA-1 : {Fore.YELLOW}{hashlib.sha1(b_text).hexdigest()}")
                     print(Fore.BLUE + f"    - SHA256: {Fore.YELLOW}{hashlib.sha256(b_text).hexdigest()}")
-                input(Fore.GREEN + "\\nPress Enter to continue...")
+                input(Fore.GREEN + "\nاضغط Enter للمتابعة...")
 
             elif choice == '2':
-                path = input(Fore.WHITE + "[?] Enter file path to signature analyze: ").strip()
+                path = input(Fore.WHITE + "[?] أدخل مسار الملف لاستخراج بصمته: ").strip()
                 if os.path.exists(path):
                     try:
                         h_md5 = hashlib.md5()
@@ -195,41 +164,40 @@ class CryptoSuite:
                             while chunk := f.read(8192):
                                 h_md5.update(chunk)
                                 h_sha256.update(chunk)
-                        print(Fore.GREEN + f"\\n[+] Immutable File Digital Signatures:")
+                        print(Fore.GREEN + f"\n[+] البصمات الرقمية الثابتة للملف:")
                         print(Fore.BLUE + f"    - File MD5   : {Fore.YELLOW}{h_md5.hexdigest()}")
                         print(Fore.BLUE + f"    - File SHA256: {Fore.YELLOW}{h_sha256.hexdigest()}")
                     except Exception as e:
-                        print(Fore.RED + f"[-] Integrity processing interrupted: {e}")
+                        print(Fore.RED + f"[-] حدث خطأ أثناء المعالجة: {e}")
                 else:
-                    print(Fore.RED + "[-] File target unreachable.")
-                input(Fore.GREEN + "\\nPress Enter to continue...")
+                    print(Fore.RED + "[-] خطأ: لم يتم العثور على الملف المطلوب.")
+                input(Fore.GREEN + "\nاضغط Enter للمتابعة...")
 
             elif choice == '3':
                 break
 
-    # ================== MODULE 3: DATA ENCODING & DECODING CORE ==================
     def encoding_menu(self):
         while True:
             self.clear_screen()
-            print(Fore.BLUE + " [1] Encode Text (Base64, Hex, Binary, URL)")
-            print(Fore.BLUE + " [2] Decode Data Frameworks back to Plain Text")
-            print(Fore.BLUE + " [3] Return to Main Terminal Frame")
-            choice = input(Fore.GREEN + "\\n[CryptoSuite/Encode]> ").strip()
+            print(Fore.BLUE + " [1] ترميز وتحويل نص (Base64, Hex, Binary, URL)")
+            print(Fore.BLUE + " [2] فك الترميز والعودة إلى النص المقروء")
+            print(Fore.BLUE + " [3] العودة للقائمة الرئيسية")
+            choice = input(Fore.GREEN + "\n[CryptoSuite/Encode]> ").strip()
 
             if choice == '1':
-                text = input(Fore.WHITE + "[?] Enter text payload to encode: ").strip()
+                text = input(Fore.WHITE + "[?] أدخل النص لتحويل ترميزه: ").strip()
                 if text:
                     b_text = text.encode()
-                    print(Fore.GREEN + f"\\n[+] Multifold Encoded Metrics Output:")
+                    print(Fore.GREEN + f"\n[+] نواتج التحويل للأنظمة البرمجية المختلفة:")
                     print(Fore.BLUE + f"    - Base64: {Fore.YELLOW}{base64.b64encode(b_text).decode()}")
                     print(Fore.BLUE + f"    - Hex   : {Fore.YELLOW}{b_text.hex()}")
-                    print(Fore.BLUE + f"    - Binary: {Fore.YELLOW}' '.join(format(b, '08b') for b in b_text)}")
+                    print(Fore.BLUE + f"    - Binary: {Fore.YELLOW}" + " ".join(f"{byte:08b}" for byte in b_text))
                     print(Fore.BLUE + f"    - URL   : {Fore.YELLOW}{urllib.parse.quote(text)}")
-                input(Fore.GREEN + "\\nPress Enter to continue...")
+                input(Fore.GREEN + "\nاضغط Enter للمتابعة...")
 
             elif choice == '2':
-                data = input(Fore.WHITE + "[?] Enter encoded data string: ").strip()
-                print(Fore.BLUE + " Choose input type: (1) Base64, (2) Hex, (3) URL")
+                data = input(Fore.WHITE + "[?] أدخل الكود/النص المرمز المراد فكه: ").strip()
+                print(Fore.BLUE + " اختر نوع الترميز المدخل: (1) Base64, (2) Hex, (3) URL")
                 t_choice = input(Fore.GREEN + "[Type]> ").strip()
                 if data:
                     try:
@@ -240,82 +208,80 @@ class CryptoSuite:
                         elif t_choice == '3':
                             dec = urllib.parse.unquote(data)
                         else:
-                            dec = "Invalid choice input."
-                        print(Fore.GREEN + f"\\n[+] Clean Decoded Text Output: {Fore.WHITE}{dec}")
+                            dec = "اختيار غير صحيح."
+                        print(Fore.GREEN + f"\n[+] النص المفكوك والجاهز للقراءة: {Fore.WHITE}{dec}")
                     except Exception:
-                        print(Fore.RED + "[-] Syntax parsing breakdown: Input mismatched encoding standard format.")
-                input(Fore.GREEN + "\\nPress Enter to continue...")
+                        print(Fore.RED + "[-] خطأ في الهيكلة: المدخلات لا تطابق معايير هذا الترميز.")
+                input(Fore.GREEN + "\nاضغط Enter للمتابعة...")
 
             elif choice == '3':
                 break
 
-    # ================== MODULE 4: PASSWORD ENGINE ==================
     def password_menu(self):
         while True:
             self.clear_screen()
-            print(Fore.BLUE + " [1] Generate Cryptographically Secure Password")
-            print(Fore.BLUE + " [2] Analyze Password Complexity & Crack Time Estimator")
-            print(Fore.BLUE + " [3] Return to Main Terminal Frame")
-            choice = input(Fore.GREEN + "\\n[CryptoSuite/Password]> ").strip()
+            print(Fore.BLUE + " [1] توليد كلمة مرور معقدة وآمنة تشفيرياً")
+            print(Fore.BLUE + " [2] فحص متانة كلمة المرور الحالية وتحليلها")
+            print(Fore.BLUE + " [3] العودة للقائمة الرئيسية")
+            choice = input(Fore.GREEN + "\n[CryptoSuite/Password]> ").strip()
 
             if choice == '1':
                 try:
-                    length = int(input(Fore.WHITE + "[?] Enter password length (Default 16): ") or 16)
+                    length = int(input(Fore.WHITE + "[?] حدد طول كلمة المرور (الافتراضي 16 حرف): ") or 16)
                 except ValueError:
                     length = 16
                 chars = string.ascii_letters + string.digits + "!@#$%^&*()-_=+"
                 secure_pwd = "".join(secrets.choice(chars) for _ in range(max(6, length)))
-                print(Fore.GREEN + f"\\n[+] Generated Secure Entropy String: {Fore.YELLOW}{secure_pwd}")
-                input(Fore.GREEN + "\\nPress Enter to continue...")
+                print(Fore.GREEN + f"\n[+] كلمة المرور العشوائية المولدة بأمان: {Fore.YELLOW}{secure_pwd}")
+                input(Fore.GREEN + "\nاضغط Enter للمتابعة...")
 
             elif choice == '2':
-                pwd = input(Fore.WHITE + "[?] Enter password to stress analyze: ").strip()
+                pwd = input(Fore.WHITE + "[?] أدخل كلمة المرور المراد فحصها: ").strip()
                 if pwd:
                     score = 0
                     feedback = []
                     if len(pwd) >= 12: score += 2
                     elif len(pwd) >= 8: score += 1
-                    else: feedback.append("Too short (aim for 12+ chars)")
+                    else: feedback.append("قصير جداً (يُفضل أن تكون 12 خانة أو أكثر)")
                     
                     if any(c.isupper() for c in pwd): score += 1
-                    else: feedback.append("Missing uppercase characters")
+                    else: feedback.append("تفتقد للأحرف الكبيرة (Uppercase)")
                     
                     if any(c.islower() for c in pwd): score += 1
-                    else: feedback.append("Missing lowercase characters")
+                    else: feedback.append("تفتقد للأحرف الصغيرة (Lowercase)")
                     
                     if any(c.isdigit() for c in pwd): score += 1
-                    else: feedback.append("Missing numerical integers")
+                    else: feedback.append("تفتقد للأرقام والرموز العددية")
                     
                     if any(c in "!@#$%^&*()-_=+" for c in pwd): score += 1
-                    else: feedback.append("Missing non-alphanumeric symbols")
+                    else: feedback.append("تفتقد للرموز والرموز الخاصة المشفرة")
 
-                    print(Fore.GREEN + f"\\n[+] Audit Analysis Complete:")
-                    print(Fore.BLUE + f"    - Complexity Rating: ", end="")
-                    if score >= 5: print(Fore.GREEN + "EXCELLENT (Military Grade Protection)")
-                    elif score >= 3: print(Fore.YELLOW + "MEDIUM (Vulnerable to Advanced Distributed Rig Attacks)")
-                    else: print(Fore.RED + "CRITICAL WEAKNESS (Highly Vulnerable to Instant Brute-Force)")
+                    print(Fore.GREEN + f"\n[+] تقرير التحليل والتدقيق الأمني:")
+                    print(Fore.BLUE + f"    - مستوى القوة: ", end="")
+                    if score >= 5: print(Fore.GREEN + "ممتاز (حماية على مستوى عسكري ومقاومة للتخمين)")
+                    elif score >= 3: print(Fore.YELLOW + "متوسطة (قابلة للكسر عن طريق كروت الشاشة الموزعة الكبيرة)")
+                    else: print(Fore.RED + "ضعيفة جداً (سهلة الاختراق الفوري وعبر هجمات القوة العنيفة)")
                     
                     if feedback:
-                        print(Fore.BLUE + "    - Deficiencies Detected:")
+                        print(Fore.BLUE + "    - الثغرات المكتشفة في كلمة المرور:")
                         for f in feedback: print(Fore.RED + f"      [!] {f}")
-                input(Fore.GREEN + "\\nPress Enter to continue...")
+                input(Fore.GREEN + "\nاضغط Enter للمتابعة...")
 
             elif choice == '3':
                 break
 
-    # ================== MODULE 5: IMAGE STEGANOGRAPHY ==================
     def steganography_menu(self):
         while True:
             self.clear_screen()
-            print(Fore.BLUE + " [1] Embed Cryptic Text Hidden Inside Image (Steganography)")
-            print(Fore.BLUE + " [2] Extract Hidden Cryptic Text Payload From Image")
-            print(Fore.BLUE + " [3] Return to Main Terminal Frame")
-            choice = input(Fore.GREEN + "\\n[CryptoSuite/Stegano]> ").strip()
+            print(Fore.BLUE + " [1] حقن وإخفاء نص سري داخل صورة (Steganography)")
+            print(Fore.BLUE + " [2] استخراج النص المخفي من الصورة")
+            print(Fore.BLUE + " [3] العودة للقائمة الرئيسية")
+            choice = input(Fore.GREEN + "\n[CryptoSuite/Stegano]> ").strip()
 
             if choice == '1':
-                img_path = input(Fore.WHITE + "[?] Enter source image path (PNG recommended): ").strip()
-                secret_msg = input(Fore.WHITE + "[?] Enter secret text to hide: ").strip()
-                out_path = input(Fore.WHITE + "[?] Enter output image name (e.g., hidden.png): ").strip() or "hidden.png"
+                img_path = input(Fore.WHITE + "[?] أدخل مسار الصورة المصدر (يُفضل PNG): ").strip()
+                secret_msg = input(Fore.WHITE + "[?] أدخل الرسالة المراد كتمها داخل الصورة: ").strip()
+                out_path = input(Fore.WHITE + "[?] حدد اسم الصورة الجديدة الناتجة (مثال secret.png): ").strip() or "secret.png"
                 
                 if os.path.exists(img_path) and secret_msg:
                     try:
@@ -323,7 +289,6 @@ class CryptoSuite:
                         encoded_img = img.copy()
                         width, height = img.size
                         
-                        # Add delimiter matrix sequence to ensure strict retrieval parsing separation
                         binary_msg = ''.join(format(ord(i), '08b') for i in secret_msg) + '1111111111111110'
                         data_idx = 0
                         msg_len = len(binary_msg)
@@ -336,7 +301,6 @@ class CryptoSuite:
                                     break
                                 r, g, b = img.getpixel((x, y))
                                 
-                                # Inject bit array stream smoothly to LSB
                                 if data_idx < msg_len:
                                     r = (r & ~1) | int(binary_msg[data_idx])
                                     data_idx += 1
@@ -351,15 +315,15 @@ class CryptoSuite:
                             if break_out: break
                         
                         encoded_img.save(out_path, "PNG")
-                        print(Fore.GREEN + f"[+] Secure Payload embedded without pixel alteration into: {out_path}")
+                        print(Fore.GREEN + f"[+] تم حقن الرسالة بنجاح دون إفساد بكسلات الصورة وتم الحفظ باسم: {out_path}")
                     except Exception as e:
-                        print(Fore.RED + f"[-] Matrix Injection Fault: {e}")
+                        print(Fore.RED + f"[-] خطأ أثناء حقن الصورة: {e}")
                 else:
-                    print(Fore.RED + "[-] Error: Source asset could not be read.")
-                input(Fore.GREEN + "\\nPress Enter to continue...")
+                    print(Fore.RED + "[-] خطأ: الملف المصدر غير موجود أو لم يتم كتابة رسالة.")
+                input(Fore.GREEN + "\nاضغط Enter للمتابعة...")
 
             elif choice == '2':
-                img_path = input(Fore.WHITE + "[?] Enter stego image path to extract from: ").strip()
+                img_path = input(Fore.WHITE + "[?] أدخل مسار الصورة لاستخراج البيانات منها: ").strip()
                 if os.path.exists(img_path):
                     try:
                         img = Image.open(img_path).convert('RGB')
@@ -373,52 +337,44 @@ class CryptoSuite:
                                 binary_data += str(g & 1)
                                 binary_data += str(b & 1)
                         
-                        # Parse binary array and stop at custom delimiter marker
                         delimiter = '1111111111111110'
                         del_idx = binary_data.find(delimiter)
                         if del_idx != -1:
                             clean_binary = binary_data[:del_idx]
                             all_bytes = [clean_binary[i:i+8] for i in range(0, len(clean_binary), 8)]
                             decoded_msg = "".join(chr(int(b, 2)) for b in all_bytes if len(b) == 8)
-                            print(Fore.GREEN + f"\\n[+] Recovered Cryptic Message Matrix:\\n{Fore.YELLOW}{decoded_msg}")
+                            print(Fore.GREEN + f"\n[+] تم استخراج النص السري من الصورة بنجاح:\n{Fore.YELLOW}{decoded_msg}")
                         else:
-                            print(Fore.RED + "[-] Diagnostic Report: No hidden signature matching delimiter matrix detected.")
+                            print(Fore.RED + "[-] تقرير الفحص: لم يتم العثور على أي بيانات مشفرة أو مخفية في هذه الصورة.")
                     except Exception as e:
-                        print(Fore.RED + f"[-] Analysis anomaly: {e}")
+                        print(Fore.RED + f"[-] فشل فحص الصورة: {e}")
                 else:
-                    print(Fore.RED + "[-] Asset file missing.")
-                input(Fore.GREEN + "\\nPress Enter to continue...")
+                    print(Fore.RED + "[-] خطأ: الصورة غير موجودة في هذا المسار.")
+                input(Fore.GREEN + "\nاضغط Enter للمتابعة...")
 
             elif choice == '3':
                 break
 
-    # ================== MASTER CONTROL SUITE RUNNER ==================
     def master_run(self):
         while True:
             self.clear_screen()
-            print(Fore.BLUE + " [1] Standard Military-Grade File & Text Encryption Core (AES-256)")
-            print(Fore.BLUE + " [2] Cryptographic Digital Hash Integrity Generator (SHA-256/MD5)")
-            print(Fore.BLUE + " [3] Advanced Data Representation Framework (Base64/Hex/Bin Encoding)")
-            print(Fore.BLUE + " [4] Password Complexity stress Analyzer & Secure Entropy Generator")
-            print(Fore.BLUE + " [5] Dynamic Text Steganography Injection (Hide Text inside Image)")
-            print(Fore.BLUE + " [6] Kill Workspace Connection & Safe Session Exit")
+            print(Fore.BLUE + " [1] وحدة التشفير العسكري المتناظر للنصوص والملفات (AES-256)")
+            print(Fore.BLUE + " [2] مصنع بصمات النزاهة والتحقق الرقمي (Hash Generator)")
+            print(Fore.BLUE + " [3] centre ترميز البيانات والتحويل السريع (Base64 / Hex / Binary)")
+            print(Fore.BLUE + " [4] مولد ومحلل متانة كلمات المرور العشوائية والآمنة")
+            print(Fore.BLUE + " [5] تقنية إخفاء وحقن النصوص داخل عمق بكسلات الصور (Steganography)")
+            print(Fore.BLUE + " [6] إغلاق الجلسة والخروج الآمن من بيئة التشفير")
             
-            choice = input(Fore.GREEN + "\\n[CryptoSuite/MasterMenu]> ").strip()
+            choice = input(Fore.GREEN + "\n[CryptoSuite/MasterMenu]> ").strip()
             if choice == '1': self.aes_menu()
             elif choice == '2': self.hash_menu()
             elif choice == '3': self.encoding_menu()
             elif choice == '4': self.password_menu()
             elif choice == '5': self.steganography_menu()
             elif choice == '6':
-                print(Fore.GREEN + "\\n[!] Exiting Protected Environment Safely. Cyber Workspace Clear.\\n")
+                print(Fore.GREEN + "\n[!] تم إغلاق الجلسة بأمان يا نايف. في أمان الله.\n")
                 sys.exit(0)
 
 if __name__ == "__main__":
     suite = CryptoSuite()
     suite.master_run()
-"""
-
-# Write Python file with full stability guarantees
-with open("CryptoSuite.py", "w", encoding="utf-8") as f:
-    f.write(crypto_suite_code)
-
